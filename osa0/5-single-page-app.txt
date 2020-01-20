@@ -1,0 +1,8 @@
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa
+palvelin-->selain: Sivun HTML, OK, 200
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+palvelin-->selain: Tyylijutut, OK, 200
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa.js
+palvelin-->selain: Sivun viestien lataamisskripti & toiminnallisuudet, OK, 200
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+palvelin-->selain: Viestit, OK, 200

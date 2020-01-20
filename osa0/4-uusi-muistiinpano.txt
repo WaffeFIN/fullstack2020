@@ -1,0 +1,13 @@
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
+palvelin-->selain: Found, 302
+note over selain:
+POSTattiin formi muistiolla selaimelle,
+luetaan sivu uudelleen
+end note
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+palvelin-->selain: HTML, Not Changed, 304
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+palvelin-->selain: main.js, Not Changed, 304
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+palvelin-->selain: data.json, OK, 200
+
