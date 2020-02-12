@@ -112,15 +112,15 @@ const App = () => {
         setPersons(persons.filter(person => person.id !== entryObject.id).concat(entryObject))
       } else return
     } else {
-      if (!newNumber) {
-        setErrorMessage("Couldn't find an entry for " + newName + " to delete")
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, ALERT_TIMEOUT)
-      } else {
         ds.create(entryObject)
-        setPersons(persons.concat(entryObject))
-      }
+          .then(() => setPersons(persons.concat(entryObject)))
+          .catch(error => {
+            console.log(error.response.data)
+            setErrorMessage(error.response.data.error)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, ALERT_TIMEOUT)
+          })
     }
 
     setNewName('')
