@@ -5,6 +5,7 @@ const app = require('../src/app')
 const api = supertest(app)
 
 const Blog = require('../src/models/blog')
+const User = require('../src/models/user')
 
 describe('blog tests with initialized data', () => {
 	beforeEach(async () => {
@@ -159,6 +160,100 @@ describe('blog tests with initialized data', () => {
 		expect(blog.title).toBe(newBlog.title)
 		expect(blog.url).toBe(newBlog.url)
 		expect(blog.likes).toBe(newBlog.likes)
+	})
+})
+
+describe('user tests with initialized data', () => {
+	beforeEach(async () => {
+		await User.deleteMany({})
+		console.log('cleared')
+		await User.insertMany(helper.initialUsers)
+		console.log('done')
+	})
+
+	//4.16
+	test('create user', async () => {
+		const newUser = {
+			name: "Test",
+			login: "somelogin",
+			password: "1234"
+		}
+
+		await api
+			.post('/api/users')
+			.send(newUser)
+			.expect(200)
+
+		const usersAtEnd = await helper.usersInDb()
+		expect(usersAtEnd.length).toBe(helper.initialUsers.length + 1)
+	})
+
+	test('unable to create user with duplicate user name', async () => {
+		const newUser = {
+			name: "Test",
+			login: "waff",
+			password: "1234"
+		}
+
+		await api
+			.post('/api/users')
+			.send(newUser)
+			.expect(400)
+
+		const usersAtEnd = await helper.usersInDb()
+		expect(usersAtEnd.length).toBe(helper.initialUsers.length)
+	})
+
+	test('unable to create user with no or short password', async () => {
+		const newUser1 = {
+			name: "Test",
+			login: "heyyy",
+			password: "01"
+		}
+
+		await api
+			.post('/api/users')
+			.send(newUser1)
+			.expect(400)
+
+		const newUser2 = {
+			name: "Test",
+			login: "heyyy"
+		}
+
+		await api
+			.post('/api/users')
+			.send(newUser2)
+			.expect(400)
+
+		const usersAtEnd = await helper.usersInDb()
+		expect(usersAtEnd.length).toBe(helper.initialUsers.length)
+	})
+
+	test('unable to create user with no or short user name', async () => {
+		const newUser1 = {
+			name: "Test",
+			login: "ok",
+			password: "1234"
+		}
+
+		await api
+			.post('/api/users')
+			.send(newUser1)
+			.expect(400)
+
+		const newUser2 = {
+			name: "Test",
+			password: "1234"
+		}
+
+		await api
+			.post('/api/users')
+			.send(newUser2)
+			.expect(400)
+
+		const usersAtEnd = await helper.usersInDb()
+		expect(usersAtEnd.length).toBe(helper.initialUsers.length)
 	})
 })
 

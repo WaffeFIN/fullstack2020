@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNGJkY2Y3MGNjMWNhMGQ1YjE4YzAwYSIsImlhdCI6MTU4MjAzMTAwMn0.uoNloepwpPzuiBRy87z8lY55WlqujevZ0xKlz3bl06w
 
 {
-    "author": "Testi mesti",
-    "title": "Moi",
+    "author": "Mie",
+    "title": "1510 Test",
     "url": "www.youtube.com",
-    "likes": 0
+    "likes": 14
 }
