@@ -1,5 +1,10 @@
 import React from "react"
-const Blog = ({ blog }) => {
+import Togglable from "../Togglable"
+
+const Blog = ({ blog, likeFn }) => {
+
+	const blogRef = React.createRef()
+
 	const blogStyle = {
 		paddingTop: 10,
 		paddingLeft: 2,
@@ -11,6 +16,10 @@ const Blog = ({ blog }) => {
 	return (
 		<div style={blogStyle}>
 			{blog.title} {blog.author}
+			<Togglable buttonLabel="show blog" ref={blogRef}>
+				<p>{blog.likes} likes on {blog.url}</p>
+				<button onClick={likeFn}>like this</button>
+			</Togglable>
 		</div>
 	)
 }

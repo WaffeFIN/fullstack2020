@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useImperativeHandle } from "react"
+import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
 
 import Blog from "./components/Blog"
 import blogService from "./services/blogs"
 import loginService from "./services/login"
+import Togglable from "./Togglable"
 
 const Notification = ({ message }) => {
 
@@ -17,40 +18,6 @@ const Notification = ({ message }) => {
 		</div>
 	)
 }
-
-const Togglable = React.forwardRef((props, ref) => {
-	const [visible, setVisible] = useState(false)
-
-	const hideWhenVisible = { display: visible ^ props.inverted ? "none" : "" }
-	const showWhenVisible = { display: visible ^ props.inverted ? "" : "none" }
-
-	const toggleVisibility = () => {
-		setVisible(!visible)
-	}
-
-	useImperativeHandle(ref, () => {
-		return {
-			toggleVisibility
-		}
-	})
-
-	return (
-		<div>
-			<div style={hideWhenVisible}>
-				<button onClick={toggleVisibility}>{props.buttonLabel}</button>
-			</div>
-			<div style={showWhenVisible}>
-				{props.children}
-				<button onClick={toggleVisibility}>cancel</button>
-			</div>
-		</div>
-	)
-})
-
-Togglable.propTypes = {
-	buttonLabel: PropTypes.string.isRequired
-}
-Togglable.displayName = "Togglable"
 
 /*
 const noteFormRef = React.createRef()
@@ -150,21 +117,25 @@ const App = () => {
 	return (
 		<div>
 			<Notification message={errorMessage} />
-			{ user ? [LoggedIn({
-				user,
-				handleLogout
-			}), <Togglable buttonLabel="Create new blog" ref={newBlogRef}>
-				{NewBlog({
-					handleAddition,
-					title, setTitle,
-					author, setAuthor,
-					url, setUrl
+			{ user ? <div>
+				{LoggedIn({
+					user,
+					handleLogout
 				})}
-			</Togglable>] : Login({
-				handleLogin,
-				username, setUsername,
-				password, setPassword
-			})}
+				<Togglable buttonLabel="Create new blog" ref={newBlogRef}>
+					{NewBlog({
+						handleAddition,
+						title, setTitle,
+						author, setAuthor,
+						url, setUrl
+					})}
+				</Togglable></div>
+				:
+				Login({
+					handleLogin,
+					username, setUsername,
+					password, setPassword
+				})}
 			<BlogList blogs={blogs} />
 		</div>
 	)
