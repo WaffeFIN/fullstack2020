@@ -19,26 +19,21 @@ const Notification = ({ message }) => {
 	)
 }
 
-/*
-const noteFormRef = React.createRef()
-
-  <Togglable buttonLabel="new note" ref={noteFormRef}>//*/
-
 const ALERT_TIMEOUT = 5000
 
 const App = () => {
 	const [blogs, setBlogs] = useState([])
-	const [username, setUsername] = useState("") 
+	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
 	const [user, setUser] = useState(null)
 
-	const [title, setTitle] = useState("") 
+	const [title, setTitle] = useState("")
 	const [author, setAuthor] = useState("")
 	const [url, setUrl] = useState("")
 	const [errorMessage, setErrorMessage] = useState(null)
 
-	const loginRef = React.createRef() 
-	const newBlogRef = React.createRef() 
+	const loginRef = React.createRef()
+	const newBlogRef = React.createRef()
 
 	useEffect(() => {
 		blogService.getAll().then(blogs =>
@@ -65,7 +60,7 @@ const App = () => {
 
 			window.localStorage.setItem(
 				"currentUser", JSON.stringify(user)
-			) 
+			)
 			setUser(user)
 			blogService.setToken(user.token)
 			setUsername("")
@@ -122,7 +117,7 @@ const App = () => {
 					user,
 					handleLogout
 				})}
-				<Togglable buttonLabel="Create new blog" ref={newBlogRef}>
+				<Togglable id="blog-addition" buttonLabel="Create new blog" ref={newBlogRef}>
 					{NewBlog({
 						handleAddition,
 						title, setTitle,
@@ -141,7 +136,7 @@ const App = () => {
 	)
 }
 
-const NewBlog = ( { handleAddition, title, setTitle, author, setAuthor, url, setUrl} ) => {
+const NewBlog = ( { handleAddition, title, setTitle, author, setAuthor, url, setUrl } ) => {
 	return (
 		<div>
 			<h2>Create new blog</h2>
@@ -149,6 +144,7 @@ const NewBlog = ( { handleAddition, title, setTitle, author, setAuthor, url, set
 				<div>
 					title
 					<input
+						id="blog-title-input"
 						type="text"
 						value={title}
 						name="Title"
@@ -158,6 +154,7 @@ const NewBlog = ( { handleAddition, title, setTitle, author, setAuthor, url, set
 				<div>
 					author
 					<input
+						id="blog-author-input"
 						type="text"
 						value={author}
 						name="Author"
@@ -167,6 +164,7 @@ const NewBlog = ( { handleAddition, title, setTitle, author, setAuthor, url, set
 				<div>
 					url
 					<input
+						id="blog-url-input"
 						type="url"
 						value={url}
 						name="Url"
@@ -205,6 +203,7 @@ const Login = ( { handleLogin, username, setUsername, password, setPassword } ) 
 				<div>
 					username
 					<input
+						id="username-input"
 						type="text"
 						value={username}
 						name="Username"
@@ -214,6 +213,7 @@ const Login = ( { handleLogin, username, setUsername, password, setPassword } ) 
 				<div>
 					password
 					<input
+						id="password-input"
 						type="password"
 						value={password}
 						name="Password"
