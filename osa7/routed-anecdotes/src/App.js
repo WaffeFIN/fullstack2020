@@ -4,6 +4,8 @@ import {
 	Switch, Route, Link, 
 	useHistory, useParams
 } from "react-router-dom"
+import { useField } from "./hooks"
+import { resetWarningCache } from 'prop-types'
 
 const Menu = () => {
 	const padding = {
@@ -65,40 +67,51 @@ const Footer = () => (
 const CreateNew = ( { addNew, addNotification } ) => {
 	const history = useHistory()
 
-	const [content, setContent] = useState('')
-	const [author, setAuthor] = useState('')
-	const [info, setInfo] = useState('')
-
+	const content = useField('text')
+	const author = useField('text')
+	const info = useField('text')
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		addNew({
-			content,
-			author,
-			info,
+			content: content.value,
+			author: author.value,
+			info: info.value,
 			votes: 0
 		})
 		history.push("/anecdotes")
-		addNotification("Anecdote '" + content + "' added successfully!")
+		addNotification("Anecdote '" + content.value + "' added successfully!")
 	}
 
-	return (
+	const handleReset = (e) => {
+		content.reset()
+		author.reset()
+		info.reset()
+	}
+
+	const removeReset = (o) => {
+		const {reset, ...rest} = o
+		return rest
+	}
+
+	return ( //TODO "remove" reset field from inputs
 		<div>
 			<h2>create a new anecdote</h2>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmit} onReset={handleReset}>
 				<div>
 					content
-					<input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+					<input {...removeReset(content)} />
 				</div>
 				<div>
 					author
-					<input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+					<input {...removeReset(author)} />
 				</div>
 				<div>
 					url for more info
-					<input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+					<input {...removeReset(info)} />
 				</div>
-				<button>create</button>
+				<button type="submit">create</button>
+				<button type="reset">reset</button>
 			</form>
 		</div>
 	)
